@@ -1,0 +1,16 @@
+<h1>User</h1>
+
+<dl>
+  <dt>Username</dt>
+  <dd>
+    <%= @user.username %>
+  </dd>
+  <dt>Email</dt>
+  <dd>
+    <%= @user.email %>
+  </dd>
+  <dt>Password hash</dt>
+  <dd>
+    <%= String.slice(@user.hashed_password, 0..25) %>..
+  </dd>
+</dl>
