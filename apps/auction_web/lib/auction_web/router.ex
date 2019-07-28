@@ -7,6 +7,7 @@ defmodule AuctionWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug AuctionWeb.Authenticator
   end
 
   pipeline :api do
@@ -17,7 +18,9 @@ defmodule AuctionWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/items", ItemController, only: [:index, :show, :new, :create, :edit, :update]
+    resources "/items", ItemController, only: [:index, :show, :new, :create, :edit, :update] do
+      resources "/bids", BidController, only: [:create]
+    end
     resources "/users", UserController, only: [:show, :new, :create]
 
     get "/login", SessionController, :new

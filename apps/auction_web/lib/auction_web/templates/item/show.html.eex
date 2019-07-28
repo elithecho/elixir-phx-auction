@@ -14,3 +14,33 @@
 <div>
   <%= link("Edit", to: Routes.item_path(@conn, :edit, @item)) %>
 </div>
+
+<div class="flex mt-12">
+  <div class="w-1/2 mr-auto border-box">
+    <h1>Bids</h1>
+    <%= for bid <- @item.bids do %>
+      <p>
+        $<%= bid.amount %> <em>from</em> <strong><%= bid.user.username %></strong>
+      </p>
+    <% end %>
+  </div>
+  <div class="w-1/2">
+    <h1>Place your bids</h1>
+    <%= form_for @bid, Routes.item_bid_path(@conn, :create, @item), fn f -> %>
+      <%= if @bid.action do %>
+        <div class="alert alert-danger">
+          ERR
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= label f, :amount, "Bid Amount", class: "control-label" %>
+        <%= number_input f, :amount, class: "form-control" %>
+      </div>
+
+      <div>
+        <%= submit "Submit", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

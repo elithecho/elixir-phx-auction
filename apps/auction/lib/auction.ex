@@ -1,5 +1,5 @@
 defmodule Auction do
-  alias Auction.{Item, User, Repo, Password}
+  alias Auction.{Item, User, Bid, Repo, Password}
 
   @repo Repo
 
@@ -33,6 +33,8 @@ defmodule Auction do
     end
   end
 
+  def list_users, do: @repo.all(User)
+
   def get_user(id), do: @repo.get(User, id)
 
   def new_user, do: User.changeset_with_password(%User{})
@@ -41,5 +43,19 @@ defmodule Auction do
     %User{}
     |> User.changeset_with_password(params)
     |> @repo.insert
+  end
+
+  def new_bid, do: Bid.changeset(%Bid{})
+
+  def insert_bid(params) do
+    %Bid{}
+    |> Bid.changeset(params)
+    |> @repo.insert
+  end
+
+  def get_item_with_bids(id) do
+    id
+    |> get_item
+    |> @repo.preload(bids: [:user])
   end
 end

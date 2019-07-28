@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AuctionWeb · Phoenix Framework</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
@@ -20,6 +21,17 @@
         </a>
       </section>
     </header>
+    <nav class="pb-6 mb-6 border-b">
+      <section class="container">
+        <%= if @current_user do %>
+          Logged in as: <%= link @current_user.username, to: Routes.user_path(@conn, :show, @current_user) %>
+          <br>
+          <%= link "Logout", to: Routes.session_path(@conn, :delete), method: :delete %>
+        <% else %>
+          <%= link "Login", to: Routes.session_path(@conn, :new) %>
+        <% end %>
+      </section>
+    </nav>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
