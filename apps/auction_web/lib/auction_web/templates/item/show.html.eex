@@ -18,12 +18,11 @@
 <div class="flex mt-12">
   <div class="w-1/2 mr-auto border-box">
     <h1>Bids</h1>
-    <%= for bid <- @item.bids do %>
-      <p>
-        $<%= bid.amount %> <em>from</em> <strong><%= bid.user.username %></strong>
-      </p>
-    <% end %>
+    <div id="bids">
+      <%= render_many @item.bids, AuctionWeb.BidView, "bid.html" %>
+    </div>
   </div>
+
   <div class="w-1/2">
     <h1>Place your bids</h1>
     <%= form_for @bid, Routes.item_bid_path(@conn, :create, @item), fn f -> %>

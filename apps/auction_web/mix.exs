@@ -46,6 +46,7 @@ defmodule AuctionWeb.MixProject do
       {:pbkdf2_elixir, "~> 0.12"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
+      {:timex, "> 0.0.0"},
       {:plug_cowboy, "~> 2.0"},
       {:auction, in_umbrella: true }
     ]

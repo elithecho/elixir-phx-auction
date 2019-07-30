@@ -2,22 +2,27 @@ defmodule AuctionWeb.UserController do
   use AuctionWeb, :controller
   plug :prevent_unauthorized_access when action in [:show]
 
+  alias Auction.{User, Address}
+
   def show(conn, %{"id" => id}) do
     user = Auction.get_user(id)
-    render(conn, "show.html", user: user)
+    bids = Auction.get_bids_by_user(user)
+
+    render(conn, "show.html", user: user, bids: bids)
   end
 
   def new(conn, _params) do
-    user = Auction.new_user
-    render(conn, "new.html", user: user)
+    changeset = User.changeset_with_password(%User{address: %Address{}})
+
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"user" => user_params}) do
     case Auction.insert_user(user_params) do
       {:ok, user} ->
         redirect conn, to: Routes.user_path(conn, :show, user)
-      {:error, user} ->
-        render(conn, "new.html", user: user)
+      {:error, changeset} ->
+        render(conn, "new.html", changeset: changeset)
     end
   end
 

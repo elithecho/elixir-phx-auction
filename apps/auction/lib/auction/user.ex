@@ -2,12 +2,15 @@ defmodule Auction.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Auction.{Bid, Address}
+
   schema "users" do
     field :username, :string
     field :email, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
-    has_many :bids, Auction.Bid
+    has_many :bids, Bid
+    has_one :address, Address
     timestamps()
   end
 
@@ -22,10 +25,16 @@ defmodule Auction.User do
   def changeset_with_password(user, params \\ %{}) do
     user
     |> cast(params, [:password])
+    |> cast_assoc(:address, with: &Address.insert_changeset/2)
     |> validate_required(:password)
     |> validate_length(:password, min: 5)
     |> validate_confirmation(:password, required: true)
     |> hash_password()
+    |> changeset(params)
+  end
+
+  def changeset_with_address(user, params \\ %{}) do
+    user
     |> changeset(params)
   end
 

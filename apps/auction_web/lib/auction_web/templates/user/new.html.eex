@@ -1,7 +1,7 @@
 <h1>User Registration</h1>
 
-<%= form_for @user, Routes.user_path(@conn, :create), fn f -> %>
-  <%= if @user.action do %>
+<%= form_for @changeset, Routes.user_path(@conn, :create), fn f -> %>
+  <%= if @changeset.action do %>
     <div class="alert alert-danger">
       Errors - Check form
     </div>
@@ -22,6 +22,28 @@
   <%= label f, :password_confirmation %>
   <%= password_input f, :password_confirmation %>
   <%= error_tag f, :password_confirmation %>
+
+  <h1>Address</h1>
+  <%= inputs_for f, :address, fn af -> %>
+    <%= label af, :line_1 %>
+    <%= text_input af, :line_1 %>
+    <%= error_tag af, :line_1 %>
+
+    <%= label af, :line_2 %>
+    <%= text_input af, :line_2 %>
+
+    <%= label af, :country %>
+    <%= text_input af, :country %>
+    <%= error_tag af, :line_1 %>
+
+    <%= label af, :state %>
+    <%= text_input af, :state %>
+    <%= error_tag af, :state %>
+
+    <%= label af, :postcode %>
+    <%= text_input af, :postcode %>
+    <%= error_tag af, :postcode %>
+  <% end %>
 
   <div>
     <%= submit "Submit" %>
