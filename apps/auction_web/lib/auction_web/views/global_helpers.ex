@@ -1,6 +1,11 @@
 defmodule AuctionWeb.GlobalHelpers do
   use Phoenix.HTML
 
+  def user_token(nil), do: nil
+  def user_token(user) do
+    Phoenix.Token.sign(AuctionWeb.Endpoint, "salty", user.id)
+  end
+
   def integer_to_currency(cents) do
     amount =
       cents
