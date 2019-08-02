@@ -25,6 +25,12 @@ defmodule Auction do
     @repo.delete(changeset)
   end
 
+  @doc """
+  Retrieves a User from the database matching the provided password
+  # Like this
+  not *that*!!
+  but **this**!!
+  """
   def get_user_by_username_and_password(username, password) do
     with user when not is_nil(user) <- @repo.get_by(User, %{username: username}),
          true <- Password.verify_with_password(password, user.hashed_password) do
