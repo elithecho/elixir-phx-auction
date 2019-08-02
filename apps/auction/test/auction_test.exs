@@ -1,16 +1,8 @@
 defmodule AuctionTest do
   use ExUnit.Case
-  import Ecto.Query
+  use Auction.DataCase
   alias Auction.{Item, Repo}
   doctest Auction, import: true
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
-
-  test "twuth" do
-    assert true
-  end
 
   describe "list_items/0" do
     setup do
